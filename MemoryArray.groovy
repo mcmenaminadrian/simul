@@ -16,7 +16,7 @@ class MemoryArray {
 		this.startAddress = startAddress
 		this.endAddress = startAddress + arraySize - 1
 		this.arraySize = arraySize
-		simulation = parent
+		simulation = parent	
 	}
 	
 	def inRange(def address)

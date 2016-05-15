@@ -3,25 +3,26 @@ package simul
 class Simulation {
 	def globalMemory
 	def signalNetwork
+	def processors
 	def blueTree
 	def coreArray
 	def outputDevice
 	def endian
+	def coreCount
 
-	Simulation()
+	Simulation(def cores = 256, def memSize = 0x100000000, def endianess = 0)
 	{
 		//0 for little endian, 1 for big endian
-		endian = 0 
-		globalMemory = new MemoryArray(this, 0x100, 0)
+		endian = endianess
+		globalMemory = new MemoryArray(this, memSize, 0)
+		coreCount = cores
 	}	
 
 }
 
-	blah = new Simulation();
-	blah.globalMemory.setWord(0x90, 0xFFFFFF00)
-	println blah.globalMemory.getWord(0x90)
-	println blah.globalMemory.getHalfWord(0x90)
-	println blah.globalMemory.getHalfWord(0x92)
-	println blah.globalMemory.getByte(0x91)
 
- 
+	def stuff = new Simulation()
+	stuff.coreArray = []
+	for (coreNumb in 1..stuff.coreCount) {stuff.coreArray <<
+		new Core(stuff, coreNumb - 1)}
+	 
