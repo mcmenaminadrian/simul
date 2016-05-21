@@ -1,5 +1,4 @@
 package simul
-package simul
 
 class Core {
 
@@ -100,7 +99,4 @@ class Core {
 		
 	}
 	
-}
-class Core {
-
 }
