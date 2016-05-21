@@ -97,7 +97,6 @@ class Core {
 			throw new IllegalArgumentException()
 		}
 		
-		if ()
 	}
 	
 }
