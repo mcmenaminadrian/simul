@@ -1,4 +1,5 @@
 package simul
+package simul
 
 class Core {
 
@@ -35,7 +36,7 @@ class Core {
 	
 	
 	Core(def parent, def number, def totalNumber = Simulation.CORE_COUNT,
-		def memorySizeKB = Simulation.LOCAL_MEM_SIZE, 
+		def memorySizeKB = Simulation.LOCAL_MEM_SIZE,
 		def memoryStartAddress = Simulation.LOCAL_MEM_START)
 	{
 		if (order == 0) {
@@ -99,4 +100,7 @@ class Core {
 		
 	}
 	
+}
+class Core {
+
 }
