@@ -34,9 +34,9 @@ class Core {
 	def executionEnvironment
 	
 	
-	Core(def parent, def number, def totalNumber = Simulation.CORE_COUNT,
-		def memorySizeKB = Simulation.LOCAL_MEM_SIZE,
-		def memoryStartAddress = Simulation.LOCAL_MEM_START)
+	Core(def parent, def number, def totalNumber = Noc.CORE_COUNT,
+		def memorySizeKB = Noc.LOCAL_MEM_SIZE,
+		def memoryStartAddress = Noc.LOCAL_MEM_START)
 	{
 		if (order == 0) {
 			def root = Math.sqrt(totalNumber)
