@@ -1,5 +1,7 @@
 package simul
 
+import groovy.transform.Synchronized
+
 class Noc {
 	def globalMemory
 	def signalNetwork
@@ -14,6 +16,9 @@ class Noc {
 	static final long DEFAULT_ENDIAN = 0
 	static final long LOCAL_MEM_SIZE = 16
 	static final long LOCAL_MEM_START = 0xA0000000
+	static long TARGET_COUNT = CORE_COUNT
+	static long run_count = 0
+	Object lock
 
 	Noc(def cores = CORE_COUNT, def memSize = TOTAL_MEM_SIZE,
 		def endianess = DEFAULT_ENDIAN)
@@ -22,14 +27,34 @@ class Noc {
 		endian = endianess
 		globalMemory = new MemoryArray(this, memSize, 0)
 		coreCount = cores
-	}	
+		lock = new Object()
+	}
+	
+
+	def waitToStart()
+	{
+		println "here"
+		synchronized(lock) {
+			run_count++
+			if (run_count < TARGET_COUNT) {
+				try {
+					println "run_count is $run_count"
+					wait()
+				} catch (InterruptedException e) {}
+			} else {
+				println "Running"
+				run_count == 0
+				notifyAll()
+			}
+		}
+	}
 
 }
-
-	println "Just run"
 
 	def stuff = new Noc()
 	stuff.coreArray = []
 	for (coreNumb in 1..stuff.coreCount) {
 		stuff.coreArray << new Core(stuff, coreNumb - 1)
 	}
+	
+	
