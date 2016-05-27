@@ -18,7 +18,8 @@ class Noc {
 	static final long LOCAL_MEM_START = 0xA0000000
 	static long TARGET_COUNT = CORE_COUNT
 	static long run_count = 0
-	Object lock
+	static long tick_count = 0
+	static BigInteger clock = 0
 
 	Noc(def cores = CORE_COUNT, def memSize = TOTAL_MEM_SIZE,
 		def endianess = DEFAULT_ENDIAN)
@@ -27,25 +28,35 @@ class Noc {
 		endian = endianess
 		globalMemory = new MemoryArray(this, memSize, 0)
 		coreCount = cores
-		lock = new Object()
+	
 	}
 	
-
-	def waitToStart()
+	//make sure all core start together
+	def synchronized waitToStart()
 	{
-		println "here"
-		synchronized(lock) {
-			run_count++
-			if (run_count < TARGET_COUNT) {
-				try {
-					println "run_count is $run_count"
-					wait()
-				} catch (InterruptedException e) {}
-			} else {
-				println "Running"
-				run_count == 0
-				notifyAll()
-			}
+		run_count++
+		if (run_count < TARGET_COUNT) {
+			try {
+				wait()
+			} catch (InterruptedException e) {}
+		} else {
+			run_count = 0
+			notifyAll()
+		}
+	}
+	
+	def synchronized tick()
+	{
+		tick_count++
+		if (tick_count < TARGET_COUNT) {
+			try {
+				wait()
+			} catch (InterruptedException e) {}
+			
+		} else {
+			clock++
+			tick_count = 0
+			notifyAll()
 		}
 	}
 
@@ -56,5 +67,5 @@ class Noc {
 	for (coreNumb in 1..stuff.coreCount) {
 		stuff.coreArray << new Core(stuff, coreNumb - 1)
 	}
-	
+	println "Clock is ${stuff.clock}"
 	

@@ -31,7 +31,7 @@ class Core {
 	private int column
 	private def index
 	private def registerList = [0L]
-
+	private def threadArray = []
 	
 	def executionEnvironment
 	
@@ -64,7 +64,7 @@ class Core {
 		def threadIt = Thread.start {
 			executionEnvironment.run()
 		}
-		threadIt.join()
+		
 	
 	}
 	
