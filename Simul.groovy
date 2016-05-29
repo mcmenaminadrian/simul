@@ -28,7 +28,6 @@ class Noc {
 		endian = endianess
 		globalMemory = new MemoryArray(this, memSize, 0)
 		coreCount = cores
-	
 	}
 	
 	//make sure all core start together
@@ -67,5 +66,8 @@ class Noc {
 	for (coreNumb in 1..stuff.coreCount) {
 		stuff.coreArray << new Core(stuff, coreNumb - 1)
 	}
+	new Mux(stuff, null, 1..stuff.coreCount, 0)
+	
+	stuff.coreArray.each {it.startUp()}
 	println "Clock is ${stuff.clock}"
 	

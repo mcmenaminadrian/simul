@@ -60,12 +60,14 @@ class Core {
 		index = number
 		simulation = parent
 		localMemory = new MemoryArray(parent, memorySizeKB * 1024, memoryStartAddress)
+	}
+	
+	def startUp()
+	{
 		executionEnvironment = new ExecutionEnvironment(parent, this)
 		def threadIt = Thread.start {
 			executionEnvironment.run()
 		}
-		
-	
 	}
 	
 	def getRegisterValue(def regIn)

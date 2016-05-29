@@ -25,7 +25,8 @@ class Mux {
 		if (lowRange.size() == 1) {
 			noc.attachMux(this)
 		} else {
-			new Mux(noc, this, lowRange, ++layer)
+			layer++
+			new Mux(noc, this, lowRange, layer)
 			new Mux(noc, this, highRange, layer)
 		}
 		
