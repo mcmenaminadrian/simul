@@ -58,6 +58,14 @@ class Noc {
 			notifyAll()
 		}
 	}
+	
+	def attachMux(def mux)
+	{
+		def lHRange = mux.lowRange.from..mux.highRange.from
+		def core = coreArray.findAll(lHRange.contains(it.index))
+		core[0].attachMuxBuffer(mux.bottomBufferLeft)
+		core[1].attachMuxBuffer(mux.bottomBufferRight)
+	}
 
 }
 

@@ -32,6 +32,7 @@ class Core {
 	private def index
 	private def registerList = [0L]
 	private def threadArray = []
+	def bufferUp
 	
 	def executionEnvironment
 	
@@ -68,6 +69,11 @@ class Core {
 		def threadIt = Thread.start {
 			executionEnvironment.run()
 		}
+	}
+	
+	def attachBuffer(def buffer)
+	{
+		bufferUp = buffer
 	}
 	
 	def getRegisterValue(def regIn)
