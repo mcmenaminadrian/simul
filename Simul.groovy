@@ -62,9 +62,9 @@ class Noc {
 	def attachMux(def mux)
 	{
 		def lHRange = mux.lowRange.from..mux.highRange.from
-		def core = coreArray.findAll(lHRange.contains(it.index))
-		core[0].attachMuxBuffer(mux.bottomBufferLeft)
-		core[1].attachMuxBuffer(mux.bottomBufferRight)
+		def core = coreArray.findAll {lHRange.contains(it.index)}
+		core[0].attachBuffer(mux.bottomBufferLeft)
+		core[1].attachBuffer(mux.bottomBufferRight)
 	}
 
 }
@@ -74,7 +74,7 @@ class Noc {
 	for (coreNumb in 1..stuff.coreCount) {
 		stuff.coreArray << new Core(stuff, coreNumb - 1)
 	}
-	new Mux(stuff, null, 1..stuff.coreCount, 0)
+	new Mux(stuff, null, 0..(stuff.coreCount - 1), 0)
 	
 	stuff.coreArray.each {it.startUp()}
 	println "Clock is ${stuff.clock}"

@@ -23,11 +23,15 @@ class Mux {
 		bottomBufferLeft = new Buffer()
 		bottomBufferRight = new Buffer()
 		if (lowRange.size() == 1) {
+			try {
 			noc.attachMux(this)
+			} catch (NullPointerException e) {
+			println "oh"
+			}
 		} else {
 			layer++
-			new Mux(noc, this, lowRange, layer)
-			new Mux(noc, this, highRange, layer)
+			muxLowerLeft = new Mux(noc, this, lowRange, layer)
+			muxLowerRight = new Mux(noc, this, highRange, layer)
 		}
 		
 	}

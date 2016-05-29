@@ -65,7 +65,7 @@ class Core {
 	
 	def startUp()
 	{
-		executionEnvironment = new ExecutionEnvironment(parent, this)
+		executionEnvironment = new ExecutionEnvironment(simulation, this)
 		def threadIt = Thread.start {
 			executionEnvironment.run()
 		}
