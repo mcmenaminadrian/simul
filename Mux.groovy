@@ -24,9 +24,9 @@ class Mux {
 		bottomBufferRight = new Buffer()
 		if (lowRange.size() == 1) {
 			try {
-			noc.attachMux(this)
+				noc.attachMux(this)
 			} catch (NullPointerException e) {
-			println "oh"
+				println "Could not build Bluetree - null pointer"
 			}
 		} else {
 			layer++

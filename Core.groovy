@@ -34,6 +34,34 @@ class Core {
 	private def threadArray = []
 	def bufferUp
 	
+	static def MEMORY_FETCH_SHIFT = 5 /* 5 for 16 bytes */
+	static def MEMORY_FETCH_SIZE = 1 << MEMORY_FETCH_SHIFT
+	static def MEMORY_FETCH_MASK = (~(MEMORY_FETCH_SIZE - 1)) & 0xFFFFFFFF
+	
+	/* special registers */
+	/* 1: MSR	Machine Status Register
+	 * 5: ESR	Exception Status Register
+	 * 3: EAR	Exception Address Register
+	 * 7: FPU	Floating Point Status Register
+	 * 11: BTR	Branch Target Register
+	 * 0: PC	Program Counter
+	 */
+	def spr =[:]
+	def PC = spr[0]
+	def MSR = spr[1]
+	def ESR = spr[5]
+	def EAR = spr[3]
+	def FPU = spr[7]
+	def BTR = spr[11]
+	
+	def PID		//process ID register
+	def ZPR		//zone protection register
+	def TLBLO	//TLB Low
+	def TLBHI	//TLB High
+	def TLBX	//TLB Index
+	def TLBSX	//TLB Search
+	def PVR0		//processor version
+	
 	def executionEnvironment
 	
 	
@@ -106,6 +134,22 @@ class Core {
 		}
 		
 		registerList[regOut] = (value & 0xFFFFFFFF)
+	}
+	
+
+	def fetchMemoryAddress(long address)
+	{
+		//if local address, just return
+		if (address >= simulation.LOCAL_MEM_START & address <
+			simulation.LOCAL_MEM_START + simualtion.LOCAL_MEM_SIZE * 1024) {
+			return
+		}
+		long startMemoryLine = address & MEMORY_FETCH_MASK
+		requestPacket = new Packet(startMemoryLine, MEMORY_FETCH_SIZE, number)
+		simulation.tick()
+		while (bufferUp.testAndUse()) {
+			simulation.tick()
+		}
 	}
 
 }
