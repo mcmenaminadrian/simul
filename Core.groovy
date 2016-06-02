@@ -146,10 +146,7 @@ class Core {
 		}
 		long startMemoryLine = address & MEMORY_FETCH_MASK
 		requestPacket = new Packet(startMemoryLine, MEMORY_FETCH_SIZE, number)
-		simulation.tick()
-		while (bufferUp.testAndUse()) {
-			simulation.tick()
-		}
+		return bufferUp.fetchMemory(requestPacket)
 	}
 
 }
