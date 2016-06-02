@@ -76,6 +76,6 @@ class Noc {
 	}
 	new Mux(stuff, null, 0..(stuff.coreCount - 1), 0)
 	
-	stuff.coreArray.each {it.startUp()}
+	stuff.coreArray.each {it.startUp() }
+	stuff.coreArray.threadArray.each {it.join()}
 	println "Clock is ${stuff.clock}"
-	

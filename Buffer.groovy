@@ -34,9 +34,9 @@ class Buffer {
 		inUse = false
 	}
 	
-	def requestFromDDR()
+	def requestFromDDR(def packetIn)
 	{
-		println "Ticks now at ${simulation.ticks}"
+		println "Ticks now at ${mux.simulation.clock}"
 	}
 	
 	def fetchMemory(def packetIn, def previousBuffer = null)
@@ -50,34 +50,22 @@ class Buffer {
 		}
 		mux.simulation.tick()
 		if (nextInChain) {
-			nextInChain.fetchMemory(packetIn, this)
+			return nextInChain.fetchMemory(packetIn, this)
 		} else {
 			if (mux.layer == 0) {
+				unSet()
 				return requestFromDDR(packetIn)
 			} else {
 				if (left) {
-					mux.muxAbove.bottomBufferLeft.fetchMemory(packetIn)
+					return mux.muxAbove.bottomBufferLeft.fetchMemory(
+						packetIn, this)
 				} else {
-					mux.muxAbove.bottomBufferRight.fetchMemory(packetIn)
+					return mux.muxAbove.bottomBufferRight.fetchMemory(
+						packetIn, this)
 				}
 			}
 		}
 	}
-	
-	@groovy.transform.Synchronized
-	boolean testAndUse(def packetIn)
-	{
-		if (inUse) {
-			return true
-		} else {
-			storedPacket = packetIn
-			inUse = true
-		}
-		return false
-	}
-	
-	
-	
 	
 	
 }

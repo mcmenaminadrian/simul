@@ -19,8 +19,6 @@ enum RegList {
 	}
 }
 
-
-
 class Core {
 
 	private static MAXREG = 32
@@ -63,8 +61,8 @@ class Core {
 	def PVR0		//processor version
 	
 	def executionEnvironment
-	
-	
+
+
 	Core(def parent, def number, def totalNumber = Noc.CORE_COUNT,
 		def memorySizeKB = Noc.LOCAL_MEM_SIZE,
 		def memoryStartAddress = Noc.LOCAL_MEM_START)
@@ -90,20 +88,21 @@ class Core {
 		simulation = parent
 		localMemory = new MemoryArray(parent, memorySizeKB * 1024, memoryStartAddress)
 	}
-	
+
 	def startUp()
 	{
 		executionEnvironment = new ExecutionEnvironment(simulation, this)
-		def threadIt = Thread.start {
+		threadArray << Thread.start {
 			executionEnvironment.run()
 		}
+		
 	}
-	
+
 	def attachBuffer(def buffer)
 	{
 		bufferUp = buffer
 	}
-	
+
 	def getRegisterValue(def regIn)
 	{
 		if (regIn == 0) {
@@ -117,7 +116,7 @@ class Core {
 		
 		return (registerList[regIn] & 0xFFFFFFFF)
 	}
-	
+
 	def setRegisterValue(def regOut, def value)
 	{
 		if (regOut == 0) {
@@ -134,18 +133,17 @@ class Core {
 		}
 		
 		registerList[regOut] = (value & 0xFFFFFFFF)
-	}
-	
+	}	
 
 	def fetchMemoryAddress(long address)
 	{
 		//if local address, just return
 		if (address >= simulation.LOCAL_MEM_START & address <
-			simulation.LOCAL_MEM_START + simualtion.LOCAL_MEM_SIZE * 1024) {
+			simulation.LOCAL_MEM_START + simulation.LOCAL_MEM_SIZE * 1024) {
 			return
 		}
 		long startMemoryLine = address & MEMORY_FETCH_MASK
-		requestPacket = new Packet(startMemoryLine, MEMORY_FETCH_SIZE, number)
+		def requestPacket = new Packet(startMemoryLine, MEMORY_FETCH_SIZE, index)
 		return bufferUp.fetchMemory(requestPacket)
 	}
 

@@ -29,9 +29,61 @@ class ExecutionEnvironment extends Script {
 	{
 		setBinding(eeBinding)
 		simulation.waitToStart()
+		cpu.fetchMemoryAddress(0x1233)
 		add r9, r0, r3
 		add r10, r9, r7
 		add r15, r12, r0
 		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		add r9, r0, r3
+		add r10, r9, r7
+		add r15, r12, r0
+		add r19, r0, r0
+		for (x in 1..1000) {
+			add r9, r0, r3
+			add r10, r9, r7
+			add r15, r12, r0
+		}
+		add r19, r0, r0
+		println "Completed thread with count at ${simulation.clock}"
 	}
 }
